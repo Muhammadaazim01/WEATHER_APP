@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:bottom_bar/bottom_bar.dart';
+import 'package:weatherapp/Models/W_Models.dart';
+import 'package:weatherapp/Services/Weather_Services.dart';
 import 'package:weatherapp/Widgets/CardContainer.dart';
 
 class Splash_Screen extends StatefulWidget {
@@ -10,8 +11,28 @@ class Splash_Screen extends StatefulWidget {
 }
 
 class _Splash_ScreenState extends State<Splash_Screen> {
-  int _currentPage = 0;
-  final _pageController = PageController();
+  W_Models? w_models;
+  final WeatherServices _weatherServices = WeatherServices();
+  final TextEditingController _countrynameController = TextEditingController();
+  bool isLoading = true;
+  @override
+  void initState() {
+    super.initState();
+    fetchWeatherData();
+  }
+
+  Future<void> fetchWeatherData() async {
+    try {
+      final fetchedWeatherData = await _weatherServices.fetchWeather("murree");
+      setState(() {
+        w_models = fetchedWeatherData;
+        isLoading = false;
+      });
+    } catch (e) {
+      print("Error Fetching Weather Data: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,91 +46,109 @@ class _Splash_ScreenState extends State<Splash_Screen> {
             ),
             Column(
               children: [
-                Padding(padding: EdgeInsets.only(top: 60)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Seongnam-si",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 37,
+                Padding(padding: EdgeInsets.only(top: 20)),
+                TextField(
+                  controller: _countrynameController,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    hintText: "Enter City Name",
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_countrynameController.text.isNotEmpty) {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      _weatherServices
+                          .fetchWeather(_countrynameController.text)
+                          .then((value) {
+                        setState(() {
+                          w_models = value;
+                          isLoading = false;
+                        });
+                      });
+                    }
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.blueGrey),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
                       ),
                     ),
-                  ],
+                  ),
+                  child: Text(
+                    "Search",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
-                Row(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(padding: EdgeInsets.only(left: 130)),
-                    Text(
-                      "21°",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 80,
-                      ),
-                    ),
-                  ],
+                if (isLoading)
+                  CircularProgressIndicator()
+                else
+                  SizedBox(
+                    height: 20,
+                  ),
+                Text(
+                  w_models?.countryname != null
+                      ? w_models!.countryname
+                      : "Loading...",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 37,
+                  ),
                 ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Partly Cloudy",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                      ),
-                    ),
-                  ],
+                Text(
+                  w_models != null
+                      ? "${w_models!.temperature.toStringAsFixed(0)}°C"
+                      : "Loading...",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 50,
+                  ),
                 ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "H:29°  L:15°",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 21,
-                      ),
-                    ),
-                  ],
+                Text(
+                  w_models != null
+                      ? "WindSpeed: ${w_models!.windSpeed} m/s"
+                      : "Loading...",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
                 ),
-                Card_Container(),
+                Text(
+                  w_models != null
+                      ? "Humidity: ${w_models!.humidity}%"
+                      : "Loading...",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 21,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Card_Container(
+                  countryname: w_models?.countryname ?? "Loading...",
+                  temperature: w_models?.temperature ?? 0,
+                  description: w_models?.description ?? "Loading...",
+                  humidity: w_models?.humidity ?? 0,
+                  sunrise: w_models?.sunrise ?? 0,
+                  windSpeed: w_models?.windSpeed ?? 0,
+                  sunset: w_models?.sunset ?? 0,
+                ),
               ],
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomBar(
-        backgroundColor: Color(0xff2A3040),
-        selectedIndex: _currentPage,
-        onTap: (int index) {
-          _pageController.jumpToPage(index);
-          setState(() => _currentPage = index);
-        },
-        items: <BottomBarItem>[
-          BottomBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-            activeColor: Colors.blue,
-          ),
-          BottomBarItem(
-            icon: Icon(Icons.favorite),
-            title: Text('Favorites'),
-            activeColor: Colors.red,
-          ),
-          BottomBarItem(
-            icon: Icon(Icons.person),
-            title: Text('Account'),
-            activeColor: Colors.greenAccent.shade700,
-          ),
-          BottomBarItem(
-            icon: Icon(Icons.settings),
-            title: Text('Settings'),
-            activeColor: Colors.orange,
-          ),
-        ],
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weatherapp/Widgets/Curved_line.dart';
 
 class Custom_Card extends StatelessWidget {
   const Custom_Card({super.key});
