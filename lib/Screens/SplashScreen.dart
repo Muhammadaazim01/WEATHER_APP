@@ -23,7 +23,8 @@ class _Splash_ScreenState extends State<Splash_Screen> {
 
   Future<void> fetchWeatherData() async {
     try {
-      final fetchedWeatherData = await _weatherServices.fetchWeather("murree");
+      final fetchedWeatherData = await _weatherServices.fetchWeather("Murree");
+
       setState(() {
         w_models = fetchedWeatherData;
         isLoading = false;

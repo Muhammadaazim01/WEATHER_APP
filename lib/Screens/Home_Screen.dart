@@ -1,5 +1,5 @@
-import 'package:bottom_bar/bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:weatherapp/Models/W_Models.dart';
 import 'package:weatherapp/Widgets/List_view.dart';
 
 class Home_Screen extends StatefulWidget {
@@ -8,9 +8,6 @@ class Home_Screen extends StatefulWidget {
   @override
   State<Home_Screen> createState() => _Home_ScreenState();
 }
-
-int _currentPage = 0;
-final _pageController = PageController();
 
 class _Home_ScreenState extends State<Home_Screen> {
   @override
@@ -31,7 +28,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Seongnam-si",
+                      "Murree",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 37,
@@ -103,36 +100,6 @@ class _Home_ScreenState extends State<Home_Screen> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomBar(
-        backgroundColor: Color(0xff2A3040),
-        selectedIndex: _currentPage,
-        onTap: (int index) {
-          _pageController.jumpToPage(index);
-          setState(() => _currentPage = index);
-        },
-        items: <BottomBarItem>[
-          BottomBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-            activeColor: Colors.blue,
-          ),
-          BottomBarItem(
-            icon: Icon(Icons.favorite),
-            title: Text('Favorites'),
-            activeColor: Colors.red,
-          ),
-          BottomBarItem(
-            icon: Icon(Icons.person),
-            title: Text('Account'),
-            activeColor: Colors.greenAccent.shade700,
-          ),
-          BottomBarItem(
-            icon: Icon(Icons.settings),
-            title: Text('Settings'),
-            activeColor: Colors.orange,
-          ),
-        ],
       ),
     );
   }

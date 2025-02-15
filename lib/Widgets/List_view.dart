@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
-class List_Widget extends StatelessWidget {
+class List_Widget extends StatefulWidget {
   final double fillPercentage;
   const List_Widget({
     super.key,
     required this.fillPercentage,
   });
 
+  @override
+  State<List_Widget> createState() => _List_WidgetState();
+}
+
+class _List_WidgetState extends State<List_Widget> {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> containerData = [
@@ -92,7 +97,6 @@ class List_Widget extends StatelessWidget {
                       Container(
                         height: 40,
                         width: 65,
-                        //color: Colors.white,
                         child: Text(
                           data["Days"],
                           style: TextStyle(
@@ -131,20 +135,18 @@ class List_Widget extends StatelessWidget {
                         width: 10,
                       ),
                       Container(
-                        width: 80, // Fixed width
-                        height: 4, // Fixed height
+                        width: 80,
+                        height: 4,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade300, // Background color
-                          borderRadius:
-                              BorderRadius.circular(2), // Rounded edges
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(2),
                         ),
                         child: FractionallySizedBox(
                           alignment: Alignment.centerLeft,
-                          widthFactor:
-                              fillPercentage, // Fill percentage (0.0 to 1.0)
+                          widthFactor: widget.fillPercentage,
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Color(0xffEF8835), // Fill color
+                              color: Color(0xffEF8835),
                               borderRadius: BorderRadius.circular(2),
                             ),
                           ),
@@ -153,7 +155,6 @@ class List_Widget extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      //if (data.containsKey("End Degree"))
                       Text(
                         data["End Degree"],
                         style: TextStyle(
