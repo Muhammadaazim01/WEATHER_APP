@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:weatherapp/Models/W_Models.dart';
 import 'package:weatherapp/Widgets/List_view.dart';
 
-class Home_Screen extends StatefulWidget {
-  const Home_Screen({super.key});
+class Screen_Two extends StatefulWidget {
+  const Screen_Two({super.key});
 
   @override
-  State<Home_Screen> createState() => _Home_ScreenState();
+  State<Screen_Two> createState() => _Screen_TwoState();
 }
 
-class _Home_ScreenState extends State<Home_Screen> {
+class _Screen_TwoState extends State<Screen_Two> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +27,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Murree",
+                      "Karachi",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 37,

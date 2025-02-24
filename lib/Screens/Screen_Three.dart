@@ -1,5 +1,6 @@
 import 'package:bottom_bar/bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:weatherapp/Screens/Screen_4.dart';
 
 class Screen3 extends StatefulWidget {
   const Screen3({super.key});
@@ -145,9 +146,17 @@ class _Screen3State extends State<Screen3> {
                           Row(
                             children: [
                               Padding(padding: EdgeInsets.only(left: 215)),
-                              Icon(
-                                Icons.arrow_forward_outlined,
-                                color: Colors.white,
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Screen4()));
+                                },
+                                child: Icon(
+                                  Icons.arrow_forward_outlined,
+                                  color: Colors.white,
+                                ),
                               ),
                             ],
                           ),

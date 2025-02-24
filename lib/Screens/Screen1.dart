@@ -1,16 +1,28 @@
+import 'package:bottom_bar/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:weatherapp/Models/W_Models.dart';
+import 'package:weatherapp/Screens/Screen_4.dart';
+import 'package:weatherapp/Screens/Screen_Three.dart';
+import 'package:weatherapp/Screens/Screen_Two.dart';
+import 'package:weatherapp/Screens/Screen_Five.dart';
 import 'package:weatherapp/Services/Weather_Services.dart';
 import 'package:weatherapp/Widgets/CardContainer.dart';
 
-class Splash_Screen extends StatefulWidget {
-  const Splash_Screen({super.key});
+class Screen_One extends StatefulWidget {
+  const Screen_One({super.key});
 
   @override
-  State<Splash_Screen> createState() => _Splash_ScreenState();
+  State<Screen_One> createState() => _Screen_OneState();
 }
 
-class _Splash_ScreenState extends State<Splash_Screen> {
+class _Screen_OneState extends State<Screen_One> {
+  final List<Widget> _screens = [
+    Screen_Two(),
+    Screen3(),
+    Screen4(), // Replace with Account Screen
+    Screen_Five(), // Replace with Settings Screen
+  ];
+  int _selectedIndex = 0;
   W_Models? w_models;
   final WeatherServices _weatherServices = WeatherServices();
   final TextEditingController _countrynameController = TextEditingController();
@@ -23,7 +35,7 @@ class _Splash_ScreenState extends State<Splash_Screen> {
 
   Future<void> fetchWeatherData() async {
     try {
-      final fetchedWeatherData = await _weatherServices.fetchWeather("Murree");
+      final fetchedWeatherData = await _weatherServices.fetchWeather("Karachi");
 
       setState(() {
         w_models = fetchedWeatherData;
@@ -32,6 +44,26 @@ class _Splash_ScreenState extends State<Splash_Screen> {
     } catch (e) {
       print("Error Fetching Weather Data: $e");
     }
+  }
+
+  void _onItemTapped(int index) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            _screens[index],
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(1.0, 0.0);
+          var end = Offset.zero;
+          var curve = Curves.easeInOut;
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(position: offsetAnimation, child: child);
+        },
+      ),
+    );
   }
 
   @override
@@ -54,6 +86,7 @@ class _Splash_ScreenState extends State<Splash_Screen> {
                   decoration: InputDecoration(
                     fillColor: Colors.white,
                     hintText: "Enter City Name",
+                    focusColor: Colors.white,
                     prefixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
@@ -150,6 +183,39 @@ class _Splash_ScreenState extends State<Splash_Screen> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomBar(
+        backgroundColor: Color.fromARGB(255, 15, 25, 42),
+        textStyle: TextStyle(fontWeight: FontWeight.bold),
+        selectedIndex: _selectedIndex,
+        onTap: (int index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+          _onItemTapped(index);
+        },
+        items: <BottomBarItem>[
+          BottomBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
+            activeColor: Colors.blue,
+          ),
+          BottomBarItem(
+            icon: Icon(Icons.favorite),
+            title: Text('Favorites'),
+            activeColor: Colors.red,
+          ),
+          BottomBarItem(
+            icon: Icon(Icons.person),
+            title: Text('Account'),
+            activeColor: Colors.greenAccent.shade700,
+          ),
+          BottomBarItem(
+            icon: Icon(Icons.settings),
+            title: Text('Settings'),
+            activeColor: Colors.orange,
+          ),
+        ],
       ),
     );
   }
