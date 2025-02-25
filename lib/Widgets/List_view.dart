@@ -75,6 +75,45 @@ class _List_WidgetState extends State<List_Widget> {
         "Degree": "12°",
         "End Degree": "22°",
       },
+      {
+        "Days": 'Tues',
+        "Images": "assets/images/2.png",
+        "Image Bottom Text": "50%",
+        "Degree": "13°",
+        "End Degree": "25°",
+      },
+      {
+        "Days": 'Wed',
+        "Images": "assets/images/small sun.png",
+        "Degree": "12°",
+        "End Degree": "22°",
+      },
+      {
+        "Days": 'Thu',
+        "Images": "assets/images/2.png",
+        "Image Bottom Text": "50%",
+        "Degree": "13°",
+        "End Degree": "25°",
+      },
+      {
+        "Days": 'Fri',
+        "Images": "assets/images/small sun.png",
+        "Degree": "12°",
+        "End Degree": "22°",
+      },
+      {
+        "Days": 'Sat',
+        "Images": "assets/images/2.png",
+        "Image Bottom Text": "50%",
+        "Degree": "13°",
+        "End Degree": "25°",
+      },
+      {
+        "Days": 'Sun',
+        "Images": "assets/images/small sun.png",
+        "Degree": "12°",
+        "End Degree": "22°",
+      },
     ];
 
     return Expanded(

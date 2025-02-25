@@ -10,8 +10,6 @@ class Screen3 extends StatefulWidget {
 }
 
 class _Screen3State extends State<Screen3> {
-  int _currentPage = 0;
-  final _pageController = PageController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,43 +227,76 @@ class _Screen3State extends State<Screen3> {
                 ),
                 Container(
                   height: 190,
-                  width: 325,
-                  color: Colors.black,
-                )
+                  width: 340,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(padding: EdgeInsets.only(top: 10)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Tuesday,14 May",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  "Los Angeles",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  "29°C",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Text(
+                                  "Sunny Cloudy",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right: 10),
+                            child: Image.asset(
+                              "assets/images/Cloud 3 zap.png",
+                              width: 100,
+                              height: 100,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ],
         )),
-      ),
-      bottomNavigationBar: BottomBar(
-        backgroundColor: Color(0xff2A3040),
-        selectedIndex: _currentPage,
-        onTap: (int index) {
-          _pageController.jumpToPage(index);
-          setState(() => _currentPage = index);
-        },
-        items: <BottomBarItem>[
-          BottomBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-            activeColor: Colors.blue,
-          ),
-          BottomBarItem(
-            icon: Icon(Icons.favorite),
-            title: Text('Favorites'),
-            activeColor: Colors.red,
-          ),
-          BottomBarItem(
-            icon: Icon(Icons.person),
-            title: Text('Account'),
-            activeColor: Colors.greenAccent.shade700,
-          ),
-          BottomBarItem(
-            icon: Icon(Icons.settings),
-            title: Text('Settings'),
-            activeColor: Colors.orange,
-          ),
-        ],
       ),
     );
   }
